@@ -1,0 +1,215 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra API",
+    "version": "2.0"
+  },
+  "request": {
+    "headers": [
+      { "name": "dev-id", "value": "{{devId}}" },
+      { "name": "x-api-key", "value": "{{apiKey}}" }
+    ]
+  },
+  "items": [
+    {
+      "info": { "name": "Authentication", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Authenticate user (custom link).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/auth/authenticateUser",
+            "body": { "type": "json", "data": "{\n  \"resource\": \"GARMIN\",\n  \"reference_id\": \"my-user-123\",\n  \"auth_success_redirect_url\": \"https://example.com/success\",\n  \"auth_failure_redirect_url\": \"https://example.com/failure\"\n}" }
+          },
+          "docs": "Generates an authentication URL for a specific provider so an end user can connect their account."
+        },
+        {
+          "info": { "name": "Generate widget session.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/auth/generateWidgetSession",
+            "body": { "type": "json", "data": "{\n  \"language\": \"en\",\n  \"reference_id\": \"my-user-123\",\n  \"auth_success_redirect_url\": \"https://example.com/success\",\n  \"auth_failure_redirect_url\": \"https://example.com/failure\"\n}" }
+          },
+          "docs": "Generates a hosted Terra Widget authentication link for the end user to pick a provider and connect."
+        },
+        {
+          "info": { "name": "Generate auth token (mobile SDK).", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/auth/generateAuthToken",
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "Mints a short-lived token to initialize the Terra iOS/Android SDKs."
+        },
+        {
+          "info": { "name": "Deauthenticate user.", "type": "http" },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.tryterra.co/v2/auth/deauthenticateUser?user_id={{user_id}}",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "The Terra user ID to deauthenticate." }
+            ]
+          },
+          "docs": "Disconnects a connected user and revokes Terra's access to their data."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Users", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get user info.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/userInfo?user_id={{user_id}}",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID." },
+              { "name": "reference_id", "value": "", "type": "query", "description": "Your reference ID (alternative to user_id)." }
+            ]
+          },
+          "docs": "Retrieves a single connected user by Terra user ID or reference ID."
+        },
+        {
+          "info": { "name": "List subscriptions.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/subscriptions"
+          },
+          "docs": "Returns all Terra user IDs connected to your developer account (paginated)."
+        },
+        {
+          "info": { "name": "Bulk user info.", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/bulkUserInfo",
+            "body": { "type": "json", "data": "{\n  \"user_ids\": [\"user-id-1\", \"user-id-2\"]\n}" }
+          },
+          "docs": "Batch-retrieves metadata for multiple connected users."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Data", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "Get activity.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/activity?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "start_date", "value": "2026-06-01", "type": "query", "description": "Start of range (required)." },
+              { "name": "end_date", "value": "2026-06-30", "type": "query", "description": "End of range (optional)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves normalized workout/exercise sessions over a date range. Streamed to your webhook when to_webhook=true."
+        },
+        {
+          "info": { "name": "Get body.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/body?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "start_date", "value": "2026-06-01", "type": "query", "description": "Start of range (required)." },
+              { "name": "end_date", "value": "2026-06-30", "type": "query", "description": "End of range (optional)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves body and biometric measurements over a date range."
+        },
+        {
+          "info": { "name": "Get daily.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/daily?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "start_date", "value": "2026-06-01", "type": "query", "description": "Start of range (required)." },
+              { "name": "end_date", "value": "2026-06-30", "type": "query", "description": "End of range (optional)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves day-level aggregated summaries over a date range."
+        },
+        {
+          "info": { "name": "Get sleep.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/sleep?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "start_date", "value": "2026-06-01", "type": "query", "description": "Start of range (required)." },
+              { "name": "end_date", "value": "2026-06-30", "type": "query", "description": "End of range (optional)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves sleep sessions and stages over a date range."
+        },
+        {
+          "info": { "name": "Get nutrition.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/nutrition?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "start_date", "value": "2026-06-01", "type": "query", "description": "Start of range (required)." },
+              { "name": "end_date", "value": "2026-06-30", "type": "query", "description": "End of range (optional)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves logged nutrition and dietary intake over a date range."
+        },
+        {
+          "info": { "name": "Get menstruation.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/menstruation?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "start_date", "value": "2026-06-01", "type": "query", "description": "Start of range (required)." },
+              { "name": "end_date", "value": "2026-06-30", "type": "query", "description": "End of range (optional)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves menstrual cycle and reproductive health data over a date range."
+        },
+        {
+          "info": { "name": "Get athlete.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/athlete?user_id={{user_id}}&to_webhook=true",
+            "params": [
+              { "name": "user_id", "value": "", "type": "query", "description": "Terra user ID (required)." },
+              { "name": "to_webhook", "value": "true", "type": "query", "description": "Stream payload to webhook (default true)." }
+            ]
+          },
+          "docs": "Retrieves the athlete profile and demographics for a connected user."
+        }
+      ]
+    },
+    {
+      "info": { "name": "Integrations", "type": "folder" },
+      "items": [
+        {
+          "info": { "name": "List integrations.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/integrations"
+          },
+          "docs": "Lists the wearables, trackers, and health apps available to your account."
+        },
+        {
+          "info": { "name": "List detailed integrations.", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/integrations/detailed"
+          },
+          "docs": "Lists supported integrations with detail on data scopes and SDK support."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

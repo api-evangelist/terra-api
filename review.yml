@@ -1,0 +1,130 @@
+aid: terra-api
+name: Terra
+review:
+  question: Does Terra expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-03'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Terra's own public API surface is
+    request/response REST over HTTPS (base https://api.tryterra.co/v2). Terra
+    does have a strong asynchronous, server-push delivery model - but it is
+    delivered by HTTP webhooks (server POSTs signed JSON to a developer-hosted
+    endpoint), not by a WebSocket or SSE transport that Terra itself hosts. The
+    webhook receiver is the developer's own HTTP endpoint, so there is no
+    Terra-hosted push channel (ws://, wss://, or text/event-stream) to model as
+    an AsyncAPI server. The webhook payloads and event types are documented and
+    could be described, but per current scope no AsyncAPI was created because
+    the transport is developer-hosted HTTP webhooks rather than a Terra-hosted
+    streaming endpoint.
+findings:
+  summary: |
+    Terra does not publish a documented public WebSocket API. Terra is a unified
+    wearables/health-data aggregator. Its public API is request/response REST
+    over HTTPS at base https://api.tryterra.co/v2, authenticated with two
+    headers, dev-id (public developer identifier) and x-api-key (secret key).
+    Terra's primary data-delivery mechanism is asynchronous but is implemented
+    as HTTP webhooks: when a data-read endpoint is called with to_webhook=true
+    (the default), or when new data arrives upstream, Terra POSTs a signed JSON
+    payload to a developer-configured webhook URL. That is server-to-endpoint
+    HTTP, not a bidirectional or long-lived socket. No realtime WebSocket
+    (ws:// or wss://) or Server-Sent Events endpoint is documented anywhere in
+    Terra's REST reference, authentication, data-management, or webhook setup
+    pages as of the review date.
+  openSource: |
+    Terra is a commercial SaaS aggregator, not an open-source project. It
+    publishes client SDKs (mobile and server), a Postman collection, and a
+    hosted Terra Widget for user onboarding, but the aggregation service itself
+    is proprietary and closed-source. GitHub org: github.com/tryterra (SDKs and
+    examples).
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.tryterra.co/v2
+      documented: true
+      note: >-
+        All auth, user-management, and data-read endpoints are HTTPS REST with
+        dev-id + x-api-key headers. Some auth endpoints are also reachable via
+        the access.tryterra.co/api/v2 host; api.tryterra.co/v2 is the canonical
+        v2 base.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: >-
+        Terra's primary data-streaming mechanism. Terra POSTs signed JSON
+        (auth, deauth, connection errors, and normalized data payloads) to a
+        developer-configured HTTP endpoint. Data-read requests with
+        to_webhook=true are fulfilled asynchronously to this destination.
+        Server-to-endpoint HTTP, not WebSocket. Not subject to inbound read
+        rate limits.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: >-
+        No WebSocket endpoint is documented in Terra's REST reference,
+        authentication, data-management, webhook, or SDK documentation as of
+        the review date.
+    - protocol: SSE
+      scheme: https
+      documented: false
+      note: No Server-Sent Events (text/event-stream) endpoint is documented.
+  endpointsConfirmedRest:
+    - POST   https://api.tryterra.co/v2/auth/authenticateUser
+    - POST   https://api.tryterra.co/v2/auth/generateWidgetSession
+    - POST   https://api.tryterra.co/v2/auth/generateAuthToken
+    - DELETE https://api.tryterra.co/v2/auth/deauthenticateUser
+    - GET    https://api.tryterra.co/v2/userInfo
+    - GET    https://api.tryterra.co/v2/subscriptions
+    - POST   https://api.tryterra.co/v2/bulkUserInfo
+    - GET    https://api.tryterra.co/v2/activity
+    - GET    https://api.tryterra.co/v2/body
+    - GET    https://api.tryterra.co/v2/daily
+    - GET    https://api.tryterra.co/v2/sleep
+    - GET    https://api.tryterra.co/v2/nutrition
+    - GET    https://api.tryterra.co/v2/menstruation
+    - GET    https://api.tryterra.co/v2/athlete
+    - GET    https://api.tryterra.co/v2/integrations
+    - GET    https://api.tryterra.co/v2/integrations/detailed
+  endpointsModeled:
+    - note: >-
+        Query parameters on the data-read endpoints (user_id, start_date,
+        end_date, to_webhook, with_samples) and request-body fields on the auth
+        and bulkUserInfo endpoints are modeled from Terra's documentation and
+        Postman collection; exact optional-field sets can vary by resource and
+        should be confirmed against the live reference. The webhook payload
+        schemas (event types) are documented but not expressed as OpenAPI here.
+sources:
+  - url: https://docs.tryterra.co/reference/health-and-fitness-api/readme
+    type: APIReference
+    note: REST endpoint list, base URL, and dev-id + x-api-key headers. All HTTPS REST.
+  - url: https://docs.tryterra.co/introduction/account-setup-and-api-keys
+    type: Documentation
+    note: dev-id (public) and x-api-key (secret) credentials from the Terra dashboard.
+  - url: https://docs.tryterra.co/health-and-fitness-api/user-authentication
+    type: Documentation
+    note: Widget and custom authentication flows; auth/deauth endpoints.
+  - url: https://docs.tryterra.co/health-and-fitness-api/managing-user-health-data/requesting-historical-data
+    type: Documentation
+    note: Historical data via GET /activity /body /daily /sleep etc. with to_webhook (default true).
+  - url: https://docs.tryterra.co/health-and-fitness-api/integration-setup/setting-up-data-destinations/webhooks
+    type: Documentation
+    note: Webhook data destinations - Terra's primary async delivery. HTTP POST, not WebSocket.
+  - url: https://docs.tryterra.co/reference/health-and-fitness-api/rate-limits
+    type: Documentation
+    note: Per-user day-budget rate limiting on read endpoints; 429 with X-Terra-RateLimit-* headers.
+  - url: https://tryterra.co/pricing
+    type: Documentation
+    note: Usage-based credit pricing (100k included, then $0.005/$0.003 per credit).
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Terra's own public API is
+    request/response REST (auth, user management, and data-read endpoints),
+    and its asynchronous delivery is implemented as developer-hosted HTTP
+    webhooks rather than a Terra-hosted server-push streaming endpoint. No
+    AsyncAPI document was created because there is no Terra-hosted WebSocket or
+    SSE channel to model; the webhook mechanism is captured as a documented
+    logical API (Terra Webhooks) and described in the transports and findings
+    above.

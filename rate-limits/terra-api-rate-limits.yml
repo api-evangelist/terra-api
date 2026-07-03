@@ -1,0 +1,76 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Terra
+providerId: terra-api
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Wearables
+- Health Data
+- Fitness
+- Rate Limiting
+- Quotas
+description: >-
+  Terra does not throttle the data-read endpoints by a conventional
+  requests-per-second cap. Instead it meters a per-user "day budget": the cost
+  of a data request equals the number of days it spans (end_date - start_date),
+  and requests without date parameters count as one day. A single request may
+  span at most 1,825 days (5 years), and a user may spend at most 6,000 days in
+  a rolling one-hour bucket. Throttled calls return HTTP 429 with
+  X-Terra-RateLimit-* headers indicating which rule fired and when the bucket
+  resets. Webhook delivery - Terra's primary data-streaming mechanism - is not
+  subject to these inbound read limits.
+notes: >-
+  Community documentation has separately described a very high generic ceiling
+  (on the order of 10,000 requests/second) for inbound calls; the authoritative,
+  currently documented control is the per-user day-budget described above. Verify
+  exact numbers in the API reference rate-limits page during reconciliation.
+sources:
+- https://docs.tryterra.co/reference/health-and-fitness-api/rate-limits
+- https://tryterra.co/community/does-terra-have-rate-limits
+responseCodes:
+  throttled: 429
+limits:
+- name: Per-Request Day Span
+  scope: request
+  metric: days
+  limit: 1825
+  notes: A single data-read request may span at most 1,825 days (5 years). Rule r1.
+- name: Cumulative Hourly Day Budget
+  scope: user
+  metric: days
+  limit: 6000
+  notes: >-
+    A user may spend at most 6,000 days across data-read requests in a rolling
+    one-hour bucket; request cost = end_date - start_date in days (undated
+    requests count as 1). Rule r2.
+- name: Webhook Delivery
+  scope: account
+  metric: events
+  limit: not rate-limited
+  notes: Outbound webhook streaming of data and lifecycle events is not subject to the inbound read limits.
+policies:
+- name: Day-Budget Metering
+  description: >-
+    Read-endpoint cost is measured in days requested, not request count, so a
+    few wide historical pulls can exhaust the budget faster than many narrow
+    ones. Chunk large backfills to stay within the 6,000-day hourly bucket.
+- name: Retry-After
+  description: >-
+    On an r2 (cumulative) violation the 429 includes a Retry-After header with
+    the seconds until the hourly bucket resets; clients should back off until
+    then rather than retrying immediately.
+- name: Budget Visibility
+  description: >-
+    Successful responses expose X-Terra-RateLimit-Limit, -Remaining, and
+    -Reset-After so clients can pace historical requests against the remaining
+    day budget.
+- name: Prefer Webhooks
+  description: >-
+    Because webhook delivery is not rate-limited, prefer to_webhook=true and
+    react to pushed events rather than polling the read endpoints.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

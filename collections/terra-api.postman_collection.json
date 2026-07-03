@@ -1,0 +1,235 @@
+{
+  "info": {
+    "name": "Terra API",
+    "description": "Terra is a unified wearables and health-data API aggregating 500+ wearables, trackers, and health apps behind one normalized REST interface. Base URL: https://api.tryterra.co/v2. All requests require two headers: dev-id (public developer identifier) and x-api-key (secret API key). Terra's primary data delivery is asynchronous via webhooks: data-read endpoints accept to_webhook=true (default) to stream payloads to your configured webhook destination.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.tryterra.co/v2", "type": "string" },
+    { "key": "devId", "value": "", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" },
+    { "key": "user_id", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Authenticate user (custom link)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"resource\": \"GARMIN\",\n  \"reference_id\": \"my-user-123\",\n  \"auth_success_redirect_url\": \"https://example.com/success\",\n  \"auth_failure_redirect_url\": \"https://example.com/failure\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/authenticateUser", "host": ["{{baseUrl}}"], "path": ["auth", "authenticateUser"] },
+            "description": "Generates an authentication URL for a specific provider so an end user can connect their account."
+          }
+        },
+        {
+          "name": "Generate widget session",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"language\": \"en\",\n  \"reference_id\": \"my-user-123\",\n  \"auth_success_redirect_url\": \"https://example.com/success\",\n  \"auth_failure_redirect_url\": \"https://example.com/failure\"\n}" },
+            "url": { "raw": "{{baseUrl}}/auth/generateWidgetSession", "host": ["{{baseUrl}}"], "path": ["auth", "generateWidgetSession"] },
+            "description": "Generates a hosted Terra Widget authentication link for the end user to pick a provider and connect."
+          }
+        },
+        {
+          "name": "Generate auth token (mobile SDK)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": { "raw": "{{baseUrl}}/auth/generateAuthToken", "host": ["{{baseUrl}}"], "path": ["auth", "generateAuthToken"] },
+            "description": "Mints a short-lived token to initialize the Terra iOS/Android SDKs."
+          }
+        },
+        {
+          "name": "Deauthenticate user",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/auth/deauthenticateUser?user_id={{user_id}}", "host": ["{{baseUrl}}"], "path": ["auth", "deauthenticateUser"], "query": [{ "key": "user_id", "value": "{{user_id}}" }] },
+            "description": "Disconnects a connected user and revokes Terra's access to their data."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get user info",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/userInfo?user_id={{user_id}}", "host": ["{{baseUrl}}"], "path": ["userInfo"], "query": [{ "key": "user_id", "value": "{{user_id}}" }] },
+            "description": "Retrieves a single connected user by Terra user ID or reference ID."
+          }
+        },
+        {
+          "name": "List subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/subscriptions", "host": ["{{baseUrl}}"], "path": ["subscriptions"] },
+            "description": "Returns all Terra user IDs connected to your developer account (paginated)."
+          }
+        },
+        {
+          "name": "Bulk user info",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"user_ids\": [\"user-id-1\", \"user-id-2\"]\n}" },
+            "url": { "raw": "{{baseUrl}}/bulkUserInfo", "host": ["{{baseUrl}}"], "path": ["bulkUserInfo"] },
+            "description": "Batch-retrieves metadata for multiple connected users."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Data",
+      "item": [
+        {
+          "name": "Get activity",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/activity?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["activity"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "start_date", "value": "2026-06-01" }, { "key": "end_date", "value": "2026-06-30" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves normalized workout/exercise sessions over a date range. Streamed to your webhook when to_webhook=true."
+          }
+        },
+        {
+          "name": "Get body",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/body?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["body"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "start_date", "value": "2026-06-01" }, { "key": "end_date", "value": "2026-06-30" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves body and biometric measurements over a date range."
+          }
+        },
+        {
+          "name": "Get daily",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/daily?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["daily"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "start_date", "value": "2026-06-01" }, { "key": "end_date", "value": "2026-06-30" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves day-level aggregated summaries over a date range."
+          }
+        },
+        {
+          "name": "Get sleep",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/sleep?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["sleep"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "start_date", "value": "2026-06-01" }, { "key": "end_date", "value": "2026-06-30" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves sleep sessions and stages over a date range."
+          }
+        },
+        {
+          "name": "Get nutrition",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/nutrition?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["nutrition"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "start_date", "value": "2026-06-01" }, { "key": "end_date", "value": "2026-06-30" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves logged nutrition and dietary intake over a date range."
+          }
+        },
+        {
+          "name": "Get menstruation",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/menstruation?user_id={{user_id}}&start_date=2026-06-01&end_date=2026-06-30&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["menstruation"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "start_date", "value": "2026-06-01" }, { "key": "end_date", "value": "2026-06-30" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves menstrual cycle and reproductive health data over a date range."
+          }
+        },
+        {
+          "name": "Get athlete",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/athlete?user_id={{user_id}}&to_webhook=true", "host": ["{{baseUrl}}"], "path": ["athlete"], "query": [{ "key": "user_id", "value": "{{user_id}}" }, { "key": "to_webhook", "value": "true" }] },
+            "description": "Retrieves the athlete profile and demographics for a connected user."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Integrations",
+      "item": [
+        {
+          "name": "List integrations",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/integrations", "host": ["{{baseUrl}}"], "path": ["integrations"] },
+            "description": "Lists the wearables, trackers, and health apps available to your account."
+          }
+        },
+        {
+          "name": "List detailed integrations",
+          "request": {
+            "method": "GET",
+            "header": [
+              { "key": "dev-id", "value": "{{devId}}" },
+              { "key": "x-api-key", "value": "{{apiKey}}" }
+            ],
+            "url": { "raw": "{{baseUrl}}/integrations/detailed", "host": ["{{baseUrl}}"], "path": ["integrations", "detailed"] },
+            "description": "Lists supported integrations with detail on data scopes and SDK support."
+          }
+        }
+      ]
+    }
+  ]
+}

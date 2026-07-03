@@ -1,0 +1,100 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Terra
+providerId: terra-api
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Wearables
+- Health Data
+- Fitness
+- Webhooks
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Terra spend. Terra bills the Unified Health & Fitness API on a
+  usage-based credit model above a monthly included allowance (100,000 credits).
+  The two dominant cost drivers are active authentications (connected users, ~200
+  credits/user/month) and data events (first 400 free per authentication, then
+  0.5 credits/event); a separate Blood Report API meters on biomarkers. Because
+  cost scales with both connected users and event volume, the primary
+  optimization levers are which data scopes you enable per user and how much
+  historical/streamed data you actually consume.
+notes: >-
+  Per-unit rates ($0.005 then $0.003 per credit) reflect the public pricing page
+  as of the created date; verify on tryterra.co/pricing during reconciliation.
+  Watch the day-budget rate-limit interaction: wide historical backfills consume
+  read budget, while ongoing costs are driven by connected users and events.
+sources:
+- https://tryterra.co/pricing
+- https://docs.tryterra.co/health-and-fitness-api/pricing
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Terra
+serviceCategory: Health and Wearable Data
+billingModel:
+  pricingCategory: Usage-Based
+  billingFrequency: Monthly
+  billingCurrency: USD
+  chargeCategories:
+  - Usage
+  - Purchase
+  - Adjustment
+focusColumns:
+  ServiceName: Terra Health & Fitness API
+  ServiceCategory: Health and Wearable Data
+  ProviderName: Terra
+  PublisherName: Terra
+  InvoiceIssuerName: Terra
+  BillingCurrency: USD
+  ChargeCategory: Usage
+  PricingCategory: Usage-Based
+meters:
+- name: credits
+  description: Unified billing unit; 100,000 included per month, then $0.005 (to 1M) / $0.003 (1M+) per credit.
+  unit: credits
+  aggregation: sum
+  dimensions:
+  - account
+  - resource
+- name: active_authentications
+  description: Connected users with an active authentication, ~200 credits per user per month.
+  unit: users
+  aggregation: sum
+  dimensions:
+  - account
+  - provider
+- name: data_events
+  description: Data events delivered; first 400 free per active authentication, then 0.5 credits each.
+  unit: events
+  aggregation: sum
+  dimensions:
+  - account
+  - user
+  - dataType
+- name: biomarkers
+  description: Biomarkers returned by the Blood Report API; first 3,500 free, then 30 credits each.
+  unit: biomarkers
+  aggregation: sum
+  dimensions:
+  - account
+principles:
+- name: Visibility
+  description: Track credits by active authentications versus data events, and by data type (activity/body/daily/sleep/nutrition/menstruation), to see what drives spend.
+- name: Allocation
+  description: Tag connected users with your reference_id per customer/team so credit consumption maps to internal cost centers.
+- name: Optimization
+  description: Enable only the data scopes each user needs, prefer webhook delivery over repeated historical pulls, and chunk backfills to respect the day-budget rate limit and avoid re-fetching data.
+- name: Accountability
+  description: Review monthly credit burn against the 100,000 included allowance; use the 30-day money-back window and first-six-month spike protection when testing errors inflate usage.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

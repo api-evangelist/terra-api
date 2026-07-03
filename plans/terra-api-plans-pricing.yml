@@ -1,0 +1,157 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Terra
+providerId: terra-api
+created: '2026-07-03'
+modified: '2026-07-03'
+reconciled: false
+tags:
+- Wearables
+- Health Data
+- Fitness
+- Webhooks
+- Plans
+description: >-
+  Terra prices the Health & Fitness (Unified) API on a single usage-based
+  subscription metered in credits rather than named seat tiers. Every account
+  includes 100,000 free credits each month that reset monthly (do not roll
+  over); usage beyond the allowance is billed on a descending per-credit rate.
+  Credits are consumed primarily by active authentications (connected users) and
+  by data events. A separate Blood Report API meters on biomarkers. Terra offers
+  a 30-day money-back window and one-time "usage spike protection" refunds during
+  the first six months. Exact contract minimums and enterprise terms are quoted
+  by sales and are not reconciled here.
+notes: >-
+  Values below reflect Terra's public pricing page as of the created date and
+  may change - verify on tryterra.co/pricing during reconciliation. The credit
+  model (200 credits per active authentication/month; first 400 events free per
+  active authentication then 0.5 credits/event) is Terra's stated consumption
+  formula; a historical entry-plan reference of ~$499/month has appeared in
+  community docs but is not confirmed on the current pricing page.
+sources:
+- https://tryterra.co/pricing
+- https://docs.tryterra.co/health-and-fitness-api/pricing
+- https://tryterra.co/community/pricing
+- https://tryterra.co/community/does-terra-have-rate-limits
+plans:
+- id: terra-included
+  name: Included Monthly Credits
+  type: free
+  description: >-
+    Every Terra subscription includes 100,000 credits each month that reset
+    monthly and do not roll over. Enough to evaluate and run small production
+    workloads before metered charges begin.
+  entries:
+  - label: Included Credits
+    name: included_credits
+    type: usage
+    metric: credits
+    limit: 100000
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: included
+    userMultiplied: false
+  elements:
+  - name: Unified Health & Fitness API
+  - name: Terra Widget and Custom Auth
+  - name: Webhook Data Streaming
+  - name: 500+ Integrations
+- id: terra-usage
+  name: Usage-Based Credits
+  type: usage
+  description: >-
+    Credits consumed beyond the monthly included allowance are billed on a
+    descending tiered rate. Consumption is driven by active authentications
+    (connected users) and data events.
+  entries:
+  - label: Credits 100,001 - 1,000,000
+    name: credits_tier_1
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.005 per credit
+    userMultiplied: false
+  - label: Credits 1,000,001+
+    name: credits_tier_2
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: $0.003 per credit
+    userMultiplied: false
+  - label: Active Authentication
+    name: active_authentication
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: 200 credits per connected user per month
+    userMultiplied: true
+  - label: Data Events
+    name: data_events
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: first 400 events free per active authentication, then 0.5 credits per event
+    userMultiplied: true
+  elements:
+  - name: Unified Health & Fitness API
+  - name: Webhook Data Streaming
+  - name: Historical Data Requests
+  - name: Volume Discounts
+- id: terra-blood-report
+  name: Blood Report API
+  type: usage
+  description: >-
+    Terra's Blood Report API is metered separately on biomarkers returned.
+  entries:
+  - label: Biomarkers
+    name: biomarkers
+    type: usage
+    metric: credits
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: first 3,500 free, then 30 credits per biomarker
+    userMultiplied: false
+  elements:
+  - name: Blood Report API
+- id: terra-enterprise
+  name: Enterprise / Custom
+  type: enterprise
+  description: >-
+    Custom volume pricing, security and compliance reviews (HIPAA/GDPR), SLAs,
+    dedicated data-source API keys, and negotiated terms for high-volume health
+    platforms. Contact Terra sales.
+  entries:
+  - label: Enterprise Agreement
+    name: enterprise
+    type: flat
+    metric: contract
+    limit: -1
+    timeFrame: year
+    geo: global
+    unit: 1
+    price: contact sales
+    userMultiplied: false
+  elements:
+  - name: Custom Volume Pricing
+  - name: Dedicated Data-Source API Keys
+  - name: Compliance and SLAs
+  - name: Priority Support
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
