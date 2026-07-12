@@ -1,0 +1,23 @@
+generated: '2026-07-11'
+method: derived
+source: openapi/terra-api-openapi.yml
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: devId
+  type: apiKey
+  in: header
+  parameter: dev-id
+  description: Your public Terra developer identifier.
+  sources:
+  - openapi/terra-api-openapi.yml
+- name: apiKey
+  type: apiKey
+  in: header
+  parameter: x-api-key
+  description: Your secret Terra API key.
+  sources:
+  - openapi/terra-api-openapi.yml
