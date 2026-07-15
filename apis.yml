@@ -220,6 +220,8 @@ apis:
     signed for verification. Historical data requests with to_webhook=true are
     fulfilled asynchronously to this same destination.
 common:
+- type: AgenticAccess
+  url: agentic-access/terra-api-agentic-access.yml
 - type: DomainSecurity
   url: security/terra-api-domain-security.yml
 - type: Authentication
