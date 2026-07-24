@@ -1,0 +1,75 @@
+openapi: 3.0.3
+info:
+  title: Terra Activity Integrations API
+  description: 'Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a single normalized REST interface. Developers onboard end users through the Terra Widget or a custom authentication flow and then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.
+
+    Terra''s primary delivery model is asynchronous. The data-read endpoints in this document accept a `to_webhook` flag (default true) that causes the requested payload to be fetched asynchronously and streamed to your configured webhook destination rather than returned inline. Newly available data is also pushed to that webhook as it arrives upstream. There is no WebSocket transport; server-to-developer delivery is HTTP webhook.
+
+    All requests require two headers: `dev-id` (your public developer identifier) and `x-api-key` (your secret API key), both found in the Terra dashboard.'
+  version: '2.0'
+  contact:
+    name: Terra
+    url: https://tryterra.co
+  license:
+    name: Proprietary
+    url: https://tryterra.co
+servers:
+- url: https://api.tryterra.co/v2
+  description: Terra API v2
+security:
+- devId: []
+  apiKey: []
+tags:
+- name: Integrations
+  description: Catalog of supported wearables, trackers, and health apps.
+paths:
+  /integrations:
+    get:
+      operationId: listIntegrations
+      tags:
+      - Integrations
+      summary: List supported integrations
+      description: Lists the wearables, trackers, and health apps available to your developer account.
+      responses:
+        '200':
+          description: A list of supported provider identifiers.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /integrations/detailed:
+    get:
+      operationId: listDetailedIntegrations
+      tags:
+      - Integrations
+      summary: List detailed integrations
+      description: Lists supported integrations with detail on the data scopes, SDKs, and capabilities each provider supports, with optional filtering.
+      parameters:
+      - name: sdk
+        in: query
+        required: false
+        schema:
+          type: boolean
+      - name: enabled_only
+        in: query
+        required: false
+        schema:
+          type: boolean
+      responses:
+        '200':
+          description: Detailed integration metadata.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid dev-id / x-api-key credentials.
+  securitySchemes:
+    devId:
+      type: apiKey
+      in: header
+      name: dev-id
+      description: Your public Terra developer identifier.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Your secret Terra API key.

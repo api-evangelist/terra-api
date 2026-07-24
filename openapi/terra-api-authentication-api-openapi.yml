@@ -1,0 +1,130 @@
+openapi: 3.0.3
+info:
+  title: Terra Activity Authentication API
+  description: 'Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a single normalized REST interface. Developers onboard end users through the Terra Widget or a custom authentication flow and then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.
+
+    Terra''s primary delivery model is asynchronous. The data-read endpoints in this document accept a `to_webhook` flag (default true) that causes the requested payload to be fetched asynchronously and streamed to your configured webhook destination rather than returned inline. Newly available data is also pushed to that webhook as it arrives upstream. There is no WebSocket transport; server-to-developer delivery is HTTP webhook.
+
+    All requests require two headers: `dev-id` (your public developer identifier) and `x-api-key` (your secret API key), both found in the Terra dashboard.'
+  version: '2.0'
+  contact:
+    name: Terra
+    url: https://tryterra.co
+  license:
+    name: Proprietary
+    url: https://tryterra.co
+servers:
+- url: https://api.tryterra.co/v2
+  description: Terra API v2
+security:
+- devId: []
+  apiKey: []
+tags:
+- name: Authentication
+  description: Connect and disconnect end-user wearable and health accounts.
+paths:
+  /auth/authenticateUser:
+    post:
+      operationId: authenticateUser
+      tags:
+      - Authentication
+      summary: Generate a custom authentication link
+      description: Generates an authentication URL for a specific resource (provider) so an end user can connect their wearable or health account to your Terra developer account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resource:
+                  type: string
+                  description: The provider to connect (for example GARMIN, FITBIT, OURA).
+                reference_id:
+                  type: string
+                  description: Your own identifier to associate with the connected user.
+                auth_success_redirect_url:
+                  type: string
+                auth_failure_redirect_url:
+                  type: string
+      responses:
+        '200':
+          description: Authentication URL and session details.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/generateWidgetSession:
+    post:
+      operationId: generateWidgetSession
+      tags:
+      - Authentication
+      summary: Generate a Terra Widget session
+      description: Generates a hosted Terra Widget authentication link that lets an end user pick from your enabled providers and connect their account, without you building a custom UI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                language:
+                  type: string
+                reference_id:
+                  type: string
+                providers:
+                  type: string
+                  description: Comma-separated list of providers to show in the widget.
+                auth_success_redirect_url:
+                  type: string
+                auth_failure_redirect_url:
+                  type: string
+      responses:
+        '200':
+          description: A widget session URL the end user opens to connect an account.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/generateAuthToken:
+    post:
+      operationId: generateAuthToken
+      tags:
+      - Authentication
+      summary: Generate an auth token for the Terra mobile SDKs
+      description: Mints a short-lived token used to initialize the Terra iOS/Android mobile SDKs (for Apple Health, Samsung Health, and Freestyle Libre connections).
+      responses:
+        '200':
+          description: A token for use with the Terra mobile SDKs.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/deauthenticateUser:
+    delete:
+      operationId: deauthenticateUser
+      tags:
+      - Authentication
+      summary: Deauthenticate a user
+      description: Disconnects a connected user and revokes Terra's access to their data.
+      parameters:
+      - name: user_id
+        in: query
+        required: true
+        schema:
+          type: string
+        description: The Terra user ID to deauthenticate.
+      responses:
+        '200':
+          description: The user was deauthenticated.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid dev-id / x-api-key credentials.
+  securitySchemes:
+    devId:
+      type: apiKey
+      in: header
+      name: dev-id
+      description: Your public Terra developer identifier.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Your secret Terra API key.

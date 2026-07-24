@@ -1,0 +1,104 @@
+openapi: 3.0.3
+info:
+  title: Terra Activity Users API
+  description: 'Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a single normalized REST interface. Developers onboard end users through the Terra Widget or a custom authentication flow and then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.
+
+    Terra''s primary delivery model is asynchronous. The data-read endpoints in this document accept a `to_webhook` flag (default true) that causes the requested payload to be fetched asynchronously and streamed to your configured webhook destination rather than returned inline. Newly available data is also pushed to that webhook as it arrives upstream. There is no WebSocket transport; server-to-developer delivery is HTTP webhook.
+
+    All requests require two headers: `dev-id` (your public developer identifier) and `x-api-key` (your secret API key), both found in the Terra dashboard.'
+  version: '2.0'
+  contact:
+    name: Terra
+    url: https://tryterra.co
+  license:
+    name: Proprietary
+    url: https://tryterra.co
+servers:
+- url: https://api.tryterra.co/v2
+  description: Terra API v2
+security:
+- devId: []
+  apiKey: []
+tags:
+- name: Users
+  description: Look up and manage connected users and subscriptions.
+paths:
+  /userInfo:
+    get:
+      operationId: getUserInfo
+      tags:
+      - Users
+      summary: Get a connected user
+      description: Retrieves a single connected user by Terra user ID, or by your reference ID, including provider, scopes, and connection status.
+      parameters:
+      - name: user_id
+        in: query
+        required: false
+        schema:
+          type: string
+      - name: reference_id
+        in: query
+        required: false
+        schema:
+          type: string
+      responses:
+        '200':
+          description: The connected user's metadata.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions:
+    get:
+      operationId: listSubscriptions
+      tags:
+      - Users
+      summary: List connected user IDs
+      description: Returns all Terra user IDs currently connected to your developer account. Supports pagination for large user bases.
+      parameters:
+      - name: page
+        in: query
+        required: false
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: A list of connected Terra user IDs.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /bulkUserInfo:
+    post:
+      operationId: bulkUserInfo
+      tags:
+      - Users
+      summary: Get info for multiple users
+      description: Batch-retrieves metadata for multiple connected users in a single request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Metadata for the requested users.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  responses:
+    Unauthorized:
+      description: Missing or invalid dev-id / x-api-key credentials.
+  securitySchemes:
+    devId:
+      type: apiKey
+      in: header
+      name: dev-id
+      description: Your public Terra developer identifier.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Your secret Terra API key.
