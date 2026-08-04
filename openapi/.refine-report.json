@@ -1,0 +1,32 @@
+{
+  "provider": "terra-api",
+  "sources": [
+    "terra-api-activity-api-openapi.yml",
+    "terra-api-athlete-api-openapi.yml",
+    "terra-api-authentication-api-openapi.yml",
+    "terra-api-body-api-openapi.yml",
+    "terra-api-daily-api-openapi.yml",
+    "terra-api-integrations-api-openapi.yml",
+    "terra-api-menstruation-api-openapi.yml",
+    "terra-api-nutrition-api-openapi.yml",
+    "terra-api-sleep-api-openapi.yml",
+    "terra-api-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "terra-api-activity-api-openapi.yml",
+    "terra-api-athlete-api-openapi.yml",
+    "terra-api-authentication-api-openapi.yml",
+    "terra-api-body-api-openapi.yml",
+    "terra-api-daily-api-openapi.yml",
+    "terra-api-integrations-api-openapi.yml",
+    "terra-api-menstruation-api-openapi.yml",
+    "terra-api-nutrition-api-openapi.yml",
+    "terra-api-sleep-api-openapi.yml",
+    "terra-api-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,475 @@
+openapi: 3.0.3
+info:
+  title: Terra API
+  description: >-
+    Terra is a unified wearables and health-data API that aggregates data from
+    500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura,
+    Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a
+    single normalized REST interface. Developers onboard end users through the
+    Terra Widget or a custom authentication flow and then receive normalized
+    Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.
+
+    Terra's primary delivery model is asynchronous. The data-read endpoints in
+    this document accept a `to_webhook` flag (default true) that causes the
+    requested payload to be fetched asynchronously and streamed to your
+    configured webhook destination rather than returned inline. Newly available
+    data is also pushed to that webhook as it arrives upstream. There is no
+    WebSocket transport; server-to-developer delivery is HTTP webhook.
+
+    All requests require two headers: `dev-id` (your public developer
+    identifier) and `x-api-key` (your secret API key), both found in the Terra
+    dashboard.
+  version: '2.0'
+  contact:
+    name: Terra
+    url: https://tryterra.co
+  license:
+    name: Proprietary
+    url: https://tryterra.co
+servers:
+  - url: https://api.tryterra.co/v2
+    description: Terra API v2
+security:
+  - devId: []
+    apiKey: []
+tags:
+  - name: Authentication
+    description: Connect and disconnect end-user wearable and health accounts.
+  - name: Users
+    description: Look up and manage connected users and subscriptions.
+  - name: Activity
+    description: Workout and exercise sessions.
+  - name: Body
+    description: Body and biometric measurements.
+  - name: Daily
+    description: Day-level aggregated summaries.
+  - name: Sleep
+    description: Sleep sessions and stages.
+  - name: Nutrition
+    description: Logged nutrition and dietary intake.
+  - name: Menstruation
+    description: Menstrual cycle and reproductive health data.
+  - name: Athlete
+    description: Connected-user athlete profile and demographics.
+  - name: Integrations
+    description: Catalog of supported wearables, trackers, and health apps.
+paths:
+  /auth/authenticateUser:
+    post:
+      operationId: authenticateUser
+      tags:
+        - Authentication
+      summary: Generate a custom authentication link
+      description: >-
+        Generates an authentication URL for a specific resource (provider) so an
+        end user can connect their wearable or health account to your Terra
+        developer account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                resource:
+                  type: string
+                  description: The provider to connect (for example GARMIN, FITBIT, OURA).
+                reference_id:
+                  type: string
+                  description: Your own identifier to associate with the connected user.
+                auth_success_redirect_url:
+                  type: string
+                auth_failure_redirect_url:
+                  type: string
+      responses:
+        '200':
+          description: Authentication URL and session details.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/generateWidgetSession:
+    post:
+      operationId: generateWidgetSession
+      tags:
+        - Authentication
+      summary: Generate a Terra Widget session
+      description: >-
+        Generates a hosted Terra Widget authentication link that lets an end
+        user pick from your enabled providers and connect their account, without
+        you building a custom UI.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                language:
+                  type: string
+                reference_id:
+                  type: string
+                providers:
+                  type: string
+                  description: Comma-separated list of providers to show in the widget.
+                auth_success_redirect_url:
+                  type: string
+                auth_failure_redirect_url:
+                  type: string
+      responses:
+        '200':
+          description: A widget session URL the end user opens to connect an account.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/generateAuthToken:
+    post:
+      operationId: generateAuthToken
+      tags:
+        - Authentication
+      summary: Generate an auth token for the Terra mobile SDKs
+      description: >-
+        Mints a short-lived token used to initialize the Terra iOS/Android
+        mobile SDKs (for Apple Health, Samsung Health, and Freestyle Libre
+        connections).
+      responses:
+        '200':
+          description: A token for use with the Terra mobile SDKs.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /auth/deauthenticateUser:
+    delete:
+      operationId: deauthenticateUser
+      tags:
+        - Authentication
+      summary: Deauthenticate a user
+      description: >-
+        Disconnects a connected user and revokes Terra's access to their data.
+      parameters:
+        - name: user_id
+          in: query
+          required: true
+          schema:
+            type: string
+          description: The Terra user ID to deauthenticate.
+      responses:
+        '200':
+          description: The user was deauthenticated.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /userInfo:
+    get:
+      operationId: getUserInfo
+      tags:
+        - Users
+      summary: Get a connected user
+      description: >-
+        Retrieves a single connected user by Terra user ID, or by your reference
+        ID, including provider, scopes, and connection status.
+      parameters:
+        - name: user_id
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: reference_id
+          in: query
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: The connected user's metadata.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /subscriptions:
+    get:
+      operationId: listSubscriptions
+      tags:
+        - Users
+      summary: List connected user IDs
+      description: >-
+        Returns all Terra user IDs currently connected to your developer
+        account. Supports pagination for large user bases.
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: A list of connected Terra user IDs.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /bulkUserInfo:
+    post:
+      operationId: bulkUserInfo
+      tags:
+        - Users
+      summary: Get info for multiple users
+      description: >-
+        Batch-retrieves metadata for multiple connected users in a single
+        request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_ids:
+                  type: array
+                  items:
+                    type: string
+      responses:
+        '200':
+          description: Metadata for the requested users.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /activity:
+    get:
+      operationId: getActivity
+      tags:
+        - Activity
+      summary: Get activity (workout) data
+      description: >-
+        Retrieves normalized workout and exercise sessions for a user over a
+        date range. When to_webhook is true (default), the payload is fetched
+        asynchronously and streamed to your webhook destination.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/ToWebhook'
+        - $ref: '#/components/parameters/WithSamples'
+      responses:
+        '200':
+          description: Activity payload (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /body:
+    get:
+      operationId: getBody
+      tags:
+        - Body
+      summary: Get body and biometric data
+      description: >-
+        Retrieves body and biometric measurements (weight, composition, blood
+        pressure, glucose, SpO2, temperature, and heart-rate samples) for a user
+        over a date range.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/ToWebhook'
+        - $ref: '#/components/parameters/WithSamples'
+      responses:
+        '200':
+          description: Body payload (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /daily:
+    get:
+      operationId: getDaily
+      tags:
+        - Daily
+      summary: Get daily summary data
+      description: >-
+        Retrieves day-level aggregated summaries (steps, distance, calories,
+        active durations, heart-rate summaries, stress) for a user over a date
+        range.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/ToWebhook'
+        - $ref: '#/components/parameters/WithSamples'
+      responses:
+        '200':
+          description: Daily payload (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /sleep:
+    get:
+      operationId: getSleep
+      tags:
+        - Sleep
+      summary: Get sleep data
+      description: >-
+        Retrieves sleep sessions (total/light/deep/REM durations, stages,
+        respiration, HRV, readiness/recovery) for a user over a date range.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/ToWebhook'
+        - $ref: '#/components/parameters/WithSamples'
+      responses:
+        '200':
+          description: Sleep payload (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /nutrition:
+    get:
+      operationId: getNutrition
+      tags:
+        - Nutrition
+      summary: Get nutrition data
+      description: >-
+        Retrieves logged nutrition and dietary intake (meals, macronutrients,
+        micronutrients, water) for a user over a date range.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/ToWebhook'
+      responses:
+        '200':
+          description: Nutrition payload (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /menstruation:
+    get:
+      operationId: getMenstruation
+      tags:
+        - Menstruation
+      summary: Get menstruation data
+      description: >-
+        Retrieves menstrual cycle and reproductive health data (cycle phases,
+        period days, predicted and actual events, symptoms) for a user over a
+        date range.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/StartDate'
+        - $ref: '#/components/parameters/EndDate'
+        - $ref: '#/components/parameters/ToWebhook'
+      responses:
+        '200':
+          description: Menstruation payload (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '429':
+          $ref: '#/components/responses/RateLimited'
+  /athlete:
+    get:
+      operationId: getAthlete
+      tags:
+        - Athlete
+      summary: Get athlete profile
+      description: >-
+        Retrieves the athlete profile (name, age, sex, height, weight, country,
+        demographics) for a connected user.
+      parameters:
+        - $ref: '#/components/parameters/UserId'
+        - $ref: '#/components/parameters/ToWebhook'
+      responses:
+        '200':
+          description: Athlete profile (inline) or acknowledgement (webhook delivery).
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /integrations:
+    get:
+      operationId: listIntegrations
+      tags:
+        - Integrations
+      summary: List supported integrations
+      description: >-
+        Lists the wearables, trackers, and health apps available to your
+        developer account.
+      responses:
+        '200':
+          description: A list of supported provider identifiers.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /integrations/detailed:
+    get:
+      operationId: listDetailedIntegrations
+      tags:
+        - Integrations
+      summary: List detailed integrations
+      description: >-
+        Lists supported integrations with detail on the data scopes, SDKs, and
+        capabilities each provider supports, with optional filtering.
+      parameters:
+        - name: sdk
+          in: query
+          required: false
+          schema:
+            type: boolean
+        - name: enabled_only
+          in: query
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Detailed integration metadata.
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  securitySchemes:
+    devId:
+      type: apiKey
+      in: header
+      name: dev-id
+      description: Your public Terra developer identifier.
+    apiKey:
+      type: apiKey
+      in: header
+      name: x-api-key
+      description: Your secret Terra API key.
+  parameters:
+    UserId:
+      name: user_id
+      in: query
+      required: true
+      schema:
+        type: string
+      description: The Terra user ID to fetch data for.
+    StartDate:
+      name: start_date
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Start of the date range (ISO 8601 date or Unix timestamp).
+    EndDate:
+      name: end_date
+      in: query
+      required: false
+      schema:
+        type: string
+      description: End of the date range. Defaults to now if omitted.
+    ToWebhook:
+      name: to_webhook
+      in: query
+      required: false
+      schema:
+        type: boolean
+        default: true
+      description: >-
+        When true (default), the payload is fetched asynchronously and streamed
+        to your configured webhook destination instead of returned inline.
+    WithSamples:
+      name: with_samples
+      in: query
+      required: false
+      schema:
+        type: boolean
+      description: Include granular time-series samples in the payload.
+  responses:
+    Unauthorized:
+      description: Missing or invalid dev-id / x-api-key credentials.
+    RateLimited:
+      description: >-
+        Rate limit exceeded. Terra meters data-read endpoints by a per-user
+        day-budget (days requested = end_date - start_date), not a per-second
+        cap. Response includes X-Terra-RateLimit-* headers and Retry-After.
