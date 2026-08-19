@@ -1,0 +1,51 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra Activity Athlete API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "dev-id",
+      "value": "{{dev-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Athlete",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get athlete profile",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/athlete",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The Terra user ID to fetch data for."
+              },
+              {
+                "name": "to_webhook",
+                "value": "",
+                "type": "query",
+                "description": "When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline."
+              }
+            ]
+          },
+          "docs": "Retrieves the athlete profile (name, age, sex, height, weight, country, demographics) for a connected user."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,271 @@
+{
+  "item": [
+    {
+      "id": "1fb32bae-6052-44fe-bf20-e1f6121a943b",
+      "name": "Nutrition",
+      "description": {
+        "content": "Logged nutrition and dietary intake.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4d31017a-368a-4024-a517-2cbd20f133d1",
+          "name": "Get nutrition data",
+          "request": {
+            "name": "Get nutrition data",
+            "description": {
+              "content": "Retrieves logged nutrition and dietary intake (meals, macronutrients, micronutrients, water) for a user over a date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "nutrition"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<string>",
+                  "description": "(Required) The Terra user ID to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<string>",
+                  "description": "(Required) Start of the date range (ISO 8601 date or Unix timestamp)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<string>",
+                  "description": "End of the date range. Defaults to now if omitted."
+                },
+                {
+                  "disabled": false,
+                  "key": "to_webhook",
+                  "value": "true",
+                  "description": "When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "5047916d-dc38-459c-8ade-1a502bab4456",
+              "name": "Nutrition payload (inline) or acknowledgement (webhook delivery).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "nutrition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to_webhook",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "a97d9fba-aeaf-4264-b854-9e24af07f340",
+              "name": "Missing or invalid dev-id / x-api-key credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "nutrition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to_webhook",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b1e96674-5768-4a44-837c-7053cfa2b377",
+              "name": "Rate limit exceeded. Terra meters data-read endpoints by a per-user day-budget (days requested = end_date - start_date), not a per-second cap. Response includes X-Terra-RateLimit-* headers and Retry-After.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "nutrition"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to_webhook",
+                      "value": "true"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tryterra.co/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "dev-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "443ab622-8fed-42bf-8e17-f3ea4bc98ed1",
+    "name": "Terra Activity Nutrition API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a single normalized REST interface. Developers onboard end users through the Terra Widget or a custom authentication flow and then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.\nTerra's primary delivery model is asynchronous. The data-read endpoints in this document accept a `to_webhook` flag (default true) that causes the requested payload to be fetched asynchronously and streamed to your configured webhook destination rather than returned inline. Newly available data is also pushed to that webhook as it arrives upstream. There is no WebSocket transport; server-to-developer delivery is HTTP webhook.\nAll requests require two headers: `dev-id` (your public developer identifier) and `x-api-key` (your secret API key), both found in the Terra dashboard.\n\nContact Support:\n Name: Terra",
+      "type": "text/plain"
+    }
+  }
+}

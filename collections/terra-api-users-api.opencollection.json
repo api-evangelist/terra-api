@@ -1,0 +1,82 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra Activity Users API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "dev-id",
+      "value": "{{dev-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get a connected user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/userInfo",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "reference_id",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Retrieves a single connected user by Terra user ID, or by your reference ID, including provider, scopes, and connection status."
+        },
+        {
+          "info": {
+            "name": "List connected user IDs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/subscriptions",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns all Terra user IDs currently connected to your developer account. Supports pagination for large user bases."
+        },
+        {
+          "info": {
+            "name": "Get info for multiple users",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/bulkUserInfo",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Batch-retrieves metadata for multiple connected users in a single request."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

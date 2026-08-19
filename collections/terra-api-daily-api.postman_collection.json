@@ -1,0 +1,289 @@
+{
+  "item": [
+    {
+      "id": "f120ca58-d8fa-4972-bf00-e5b79b247164",
+      "name": "Daily",
+      "description": {
+        "content": "Day-level aggregated summaries.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "ffb2de76-1959-40f4-a1a4-f64cff4e62f8",
+          "name": "Get daily summary data",
+          "request": {
+            "name": "Get daily summary data",
+            "description": {
+              "content": "Retrieves day-level aggregated summaries (steps, distance, calories, active durations, heart-rate summaries, stress) for a user over a date range.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "daily"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "user_id",
+                  "value": "<string>",
+                  "description": "(Required) The Terra user ID to fetch data for."
+                },
+                {
+                  "disabled": false,
+                  "key": "start_date",
+                  "value": "<string>",
+                  "description": "(Required) Start of the date range (ISO 8601 date or Unix timestamp)."
+                },
+                {
+                  "disabled": false,
+                  "key": "end_date",
+                  "value": "<string>",
+                  "description": "End of the date range. Defaults to now if omitted."
+                },
+                {
+                  "disabled": false,
+                  "key": "to_webhook",
+                  "value": "true",
+                  "description": "When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline."
+                },
+                {
+                  "disabled": false,
+                  "key": "with_samples",
+                  "value": "<boolean>",
+                  "description": "Include granular time-series samples in the payload."
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "0a2d31c6-cc3c-473c-9e42-6ee61f4a3ec4",
+              "name": "Daily payload (inline) or acknowledgement (webhook delivery).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "daily"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to_webhook",
+                      "value": "true"
+                    },
+                    {
+                      "key": "with_samples",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "d163534a-d919-43e5-bf93-ec914b8ab2d9",
+              "name": "Missing or invalid dev-id / x-api-key credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "daily"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to_webhook",
+                      "value": "true"
+                    },
+                    {
+                      "key": "with_samples",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "b4acfb84-fe37-4cd3-9b2a-84dabb9ccad2",
+              "name": "Rate limit exceeded. Terra meters data-read endpoints by a per-user day-budget (days requested = end_date - start_date), not a per-second cap. Response includes X-Terra-RateLimit-* headers and Retry-After.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "daily"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "user_id",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "start_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "end_date",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "to_webhook",
+                      "value": "true"
+                    },
+                    {
+                      "key": "with_samples",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Too Many Requests",
+              "code": 429,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tryterra.co/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "dev-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "23904205-81b9-4a5f-9e96-5ba3c1d201b9",
+    "name": "Terra Activity Daily API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a single normalized REST interface. Developers onboard end users through the Terra Widget or a custom authentication flow and then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.\nTerra's primary delivery model is asynchronous. The data-read endpoints in this document accept a `to_webhook` flag (default true) that causes the requested payload to be fetched asynchronously and streamed to your configured webhook destination rather than returned inline. Newly available data is also pushed to that webhook as it arrives upstream. There is no WebSocket transport; server-to-developer delivery is HTTP webhook.\nAll requests require two headers: `dev-id` (your public developer identifier) and `x-api-key` (your secret API key), both found in the Terra dashboard.\n\nContact Support:\n Name: Terra",
+      "type": "text/plain"
+    }
+  }
+}

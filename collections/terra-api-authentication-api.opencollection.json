@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra Activity Authentication API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "dev-id",
+      "value": "{{dev-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Authentication",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Generate a custom authentication link",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/auth/authenticateUser",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates an authentication URL for a specific resource (provider) so an end user can connect their wearable or health account to your Terra developer account."
+        },
+        {
+          "info": {
+            "name": "Generate a Terra Widget session",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/auth/generateWidgetSession",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Generates a hosted Terra Widget authentication link that lets an end user pick from your enabled providers and connect their account, without you building a custom UI."
+        },
+        {
+          "info": {
+            "name": "Generate an auth token for the Terra mobile SDKs",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.tryterra.co/v2/auth/generateAuthToken"
+          },
+          "docs": "Mints a short-lived token used to initialize the Terra iOS/Android mobile SDKs (for Apple Health, Samsung Health, and Freestyle Libre connections)."
+        },
+        {
+          "info": {
+            "name": "Deauthenticate a user",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://api.tryterra.co/v2/auth/deauthenticateUser",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The Terra user ID to deauthenticate."
+              }
+            ]
+          },
+          "docs": "Disconnects a connected user and revokes Terra's access to their data."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,295 @@
+{
+  "item": [
+    {
+      "id": "8ba39266-7cad-4e68-9ac1-f54a31628ea3",
+      "name": "Integrations",
+      "description": {
+        "content": "Catalog of supported wearables, trackers, and health apps.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "61623772-22c0-4101-a042-f42d5d08254f",
+          "name": "List supported integrations",
+          "request": {
+            "name": "List supported integrations",
+            "description": {
+              "content": "Lists the wearables, trackers, and health apps available to your developer account.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "integrations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "95794dbc-c71a-4ebe-9f8d-da170cf20d87",
+              "name": "A list of supported provider identifiers.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "integrations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "15d22ab3-245c-47f4-adae-df5bad2f1a30",
+              "name": "Missing or invalid dev-id / x-api-key credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "integrations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "fe13c62e-9a87-4394-aecc-abcb5bd62427",
+          "name": "List detailed integrations",
+          "request": {
+            "name": "List detailed integrations",
+            "description": {
+              "content": "Lists supported integrations with detail on the data scopes, SDKs, and capabilities each provider supports, with optional filtering.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "integrations",
+                "detailed"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "sdk",
+                  "value": "<boolean>"
+                },
+                {
+                  "disabled": false,
+                  "key": "enabled_only",
+                  "value": "<boolean>"
+                }
+              ],
+              "variable": []
+            },
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "541a91a2-db4a-4ee0-aed8-a3e690028e3b",
+              "name": "Detailed integration metadata.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "integrations",
+                    "detailed"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sdk",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "enabled_only",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            },
+            {
+              "id": "04d3a765-effd-49e3-9852-af32bc6e71ce",
+              "name": "Missing or invalid dev-id / x-api-key credentials.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "integrations",
+                    "detailed"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "sdk",
+                      "value": "<boolean>"
+                    },
+                    {
+                      "key": "enabled_only",
+                      "value": "<boolean>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "dev-id",
+                    "value": "<API Key>"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "text/plain"
+                }
+              ],
+              "body": "",
+              "cookie": [],
+              "_postman_previewlanguage": "text"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.tryterra.co/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "dev-id"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "8819b5c9-10fa-41c6-b26f-4e74a59f4d75",
+    "name": "Terra Activity Integrations API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps (Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and more) behind a single normalized REST interface. Developers onboard end users through the Terra Widget or a custom authentication flow and then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data.\nTerra's primary delivery model is asynchronous. The data-read endpoints in this document accept a `to_webhook` flag (default true) that causes the requested payload to be fetched asynchronously and streamed to your configured webhook destination rather than returned inline. Newly available data is also pushed to that webhook as it arrives upstream. There is no WebSocket transport; server-to-developer delivery is HTTP webhook.\nAll requests require two headers: `dev-id` (your public developer identifier) and `x-api-key` (your secret API key), both found in the Terra dashboard.\n\nContact Support:\n Name: Terra",
+      "type": "text/plain"
+    }
+  }
+}

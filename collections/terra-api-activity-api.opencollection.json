@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra Activity API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "dev-id",
+      "value": "{{dev-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Activity",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get activity (workout) data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/activity",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The Terra user ID to fetch data for."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range (ISO 8601 date or Unix timestamp)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range. Defaults to now if omitted."
+              },
+              {
+                "name": "to_webhook",
+                "value": "",
+                "type": "query",
+                "description": "When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline."
+              },
+              {
+                "name": "with_samples",
+                "value": "",
+                "type": "query",
+                "description": "Include granular time-series samples in the payload."
+              }
+            ]
+          },
+          "docs": "Retrieves normalized workout and exercise sessions for a user over a date range. When to_webhook is true (default), the payload is fetched asynchronously and streamed to your webhook destination."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

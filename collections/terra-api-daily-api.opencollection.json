@@ -1,0 +1,69 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra Activity Daily API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "dev-id",
+      "value": "{{dev-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Daily",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get daily summary data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/daily",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The Terra user ID to fetch data for."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range (ISO 8601 date or Unix timestamp)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range. Defaults to now if omitted."
+              },
+              {
+                "name": "to_webhook",
+                "value": "",
+                "type": "query",
+                "description": "When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline."
+              },
+              {
+                "name": "with_samples",
+                "value": "",
+                "type": "query",
+                "description": "Include granular time-series samples in the payload."
+              }
+            ]
+          },
+          "docs": "Retrieves day-level aggregated summaries (steps, distance, calories, active durations, heart-rate summaries, stress) for a user over a date range."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

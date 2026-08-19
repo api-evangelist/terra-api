@@ -1,0 +1,63 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Terra Activity Menstruation API",
+    "version": "2.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "dev-id",
+      "value": "{{dev-id}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Menstruation",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get menstruation data",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.tryterra.co/v2/menstruation",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "query",
+                "description": "The Terra user ID to fetch data for."
+              },
+              {
+                "name": "start_date",
+                "value": "",
+                "type": "query",
+                "description": "Start of the date range (ISO 8601 date or Unix timestamp)."
+              },
+              {
+                "name": "end_date",
+                "value": "",
+                "type": "query",
+                "description": "End of the date range. Defaults to now if omitted."
+              },
+              {
+                "name": "to_webhook",
+                "value": "",
+                "type": "query",
+                "description": "When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline."
+              }
+            ]
+          },
+          "docs": "Retrieves menstrual cycle and reproductive health data (cycle phases, period days, predicted and actual events, symptoms) for a user over a date range."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
