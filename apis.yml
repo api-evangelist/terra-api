@@ -32,6 +32,13 @@ tags:
 - Health Data
 - Fitness
 - Aggregator
+- Webhook
+- Digital Health
+tags_raw:
+- Wearables
+- Health Data
+- Fitness
+- Aggregator
 - Webhooks
 - Digital Health
 created: '2026-07-03'
@@ -41,6 +48,10 @@ apis:
 - aid: terra-api:terra-api-webhooks
   name: Terra Webhooks
   tags:
+  - Webhook
+  - Data Streaming
+  - Event
+  tags_raw:
   - Webhooks
   - Data Streaming
   - Events
@@ -155,6 +166,8 @@ apis:
   humanURL: https://docs.tryterra.co/health-and-fitness-api/user-authentication
   baseURL: https://api.tryterra.co/v2
   tags:
+  - Integration
+  tags_raw:
   - Integrations
   properties:
   - type: OpenAPI
@@ -227,6 +240,8 @@ apis:
   humanURL: https://docs.tryterra.co/health-and-fitness-api/user-authentication
   baseURL: https://api.tryterra.co/v2
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
