@@ -1,16 +1,7 @@
 {
   "provider": "terra-api",
   "sources": [
-    "terra-api-activity-api-openapi.yml",
-    "terra-api-athlete-api-openapi.yml",
-    "terra-api-authentication-api-openapi.yml",
-    "terra-api-body-api-openapi.yml",
-    "terra-api-daily-api-openapi.yml",
-    "terra-api-integrations-api-openapi.yml",
-    "terra-api-menstruation-api-openapi.yml",
-    "terra-api-nutrition-api-openapi.yml",
-    "terra-api-sleep-api-openapi.yml",
-    "terra-api-users-api-openapi.yml"
+    "_original/terra-api-openapi.yml"
   ],
   "outputs": [
     "terra-api-activity-api-openapi.yml",
@@ -27,6 +18,21 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "terra-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "terra-api-activity-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-athlete-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-authentication-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-body-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-daily-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-integrations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-menstruation-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-nutrition-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-sleep-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "terra-api-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
