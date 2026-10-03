@@ -40,13 +40,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   parameters:
-    EndDate:
-      name: end_date
-      in: query
-      required: false
-      schema:
-        type: string
-      description: End of the date range. Defaults to now if omitted.
     UserId:
       name: user_id
       in: query
@@ -61,6 +54,13 @@ components:
       schema:
         type: string
       description: Start of the date range (ISO 8601 date or Unix timestamp).
+    EndDate:
+      name: end_date
+      in: query
+      required: false
+      schema:
+        type: string
+      description: End of the date range. Defaults to now if omitted.
     ToWebhook:
       name: to_webhook
       in: query
@@ -70,10 +70,10 @@ components:
         default: true
       description: When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline.
   responses:
-    Unauthorized:
-      description: Missing or invalid dev-id / x-api-key credentials.
     RateLimited:
       description: Rate limit exceeded. Terra meters data-read endpoints by a per-user day-budget (days requested = end_date - start_date), not a per-second cap. Response includes X-Terra-RateLimit-* headers and Retry-After.
+    Unauthorized:
+      description: Missing or invalid dev-id / x-api-key credentials.
   securitySchemes:
     devId:
       type: apiKey

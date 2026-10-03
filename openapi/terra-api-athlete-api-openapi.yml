@@ -35,9 +35,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  responses:
-    Unauthorized:
-      description: Missing or invalid dev-id / x-api-key credentials.
   parameters:
     UserId:
       name: user_id
@@ -54,6 +51,9 @@ components:
         type: boolean
         default: true
       description: When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline.
+  responses:
+    Unauthorized:
+      description: Missing or invalid dev-id / x-api-key credentials.
   securitySchemes:
     devId:
       type: apiKey
