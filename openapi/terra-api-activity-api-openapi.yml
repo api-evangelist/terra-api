@@ -41,27 +41,6 @@ paths:
           $ref: '#/components/responses/RateLimited'
 components:
   parameters:
-    UserId:
-      name: user_id
-      in: query
-      required: true
-      schema:
-        type: string
-      description: The Terra user ID to fetch data for.
-    StartDate:
-      name: start_date
-      in: query
-      required: true
-      schema:
-        type: string
-      description: Start of the date range (ISO 8601 date or Unix timestamp).
-    WithSamples:
-      name: with_samples
-      in: query
-      required: false
-      schema:
-        type: boolean
-      description: Include granular time-series samples in the payload.
     EndDate:
       name: end_date
       in: query
@@ -69,6 +48,27 @@ components:
       schema:
         type: string
       description: End of the date range. Defaults to now if omitted.
+    UserId:
+      name: user_id
+      in: query
+      required: true
+      schema:
+        type: string
+      description: The Terra user ID to fetch data for.
+    WithSamples:
+      name: with_samples
+      in: query
+      required: false
+      schema:
+        type: boolean
+      description: Include granular time-series samples in the payload.
+    StartDate:
+      name: start_date
+      in: query
+      required: true
+      schema:
+        type: string
+      description: Start of the date range (ISO 8601 date or Unix timestamp).
     ToWebhook:
       name: to_webhook
       in: query

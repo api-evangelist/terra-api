@@ -36,13 +36,6 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   parameters:
-    UserId:
-      name: user_id
-      in: query
-      required: true
-      schema:
-        type: string
-      description: The Terra user ID to fetch data for.
     ToWebhook:
       name: to_webhook
       in: query
@@ -51,6 +44,13 @@ components:
         type: boolean
         default: true
       description: When true (default), the payload is fetched asynchronously and streamed to your configured webhook destination instead of returned inline.
+    UserId:
+      name: user_id
+      in: query
+      required: true
+      schema:
+        type: string
+      description: The Terra user ID to fetch data for.
   responses:
     Unauthorized:
       description: Missing or invalid dev-id / x-api-key credentials.
