@@ -1,19 +1,42 @@
-generated: '2026-07-15'
+generated: '2026-09-23'
 method: generated
-source: openapi/terra-api-openapi.yml
+source: openapi/terra-api-activity-api-openapi.yml, openapi/terra-api-athlete-api-openapi.yml,
+  openapi/terra-api-authentication-api-openapi.yml, openapi/terra-api-body-api-openapi.yml,
+  openapi/terra-api-daily-api-openapi.yml, openapi/terra-api-integrations-api-openapi.yml, openapi/terra-api-menstruation-api-openapi.yml,
+  openapi/terra-api-nutrition-api-openapi.yml, openapi/terra-api-sleep-api-openapi.yml, openapi/terra-api-users-api-openapi.yml
 description: Recommended x-agentic-access execution contracts, classified heuristically from
   the OpenAPI. A governance starting point for exposing this API to AI agents — review and bind
   audience per deployment. See research/curity/agentic-governance/.
 summary:
   operations: 16
   by_action_class:
-    acting: 5
-    connected: 11
+    connected: 12
+    acting: 4
   by_consequence:
-    write: 5
-    read: 11
+    read: 12
+    write: 4
   human_in_the_loop_required: 0
 operations:
+- path: /activity
+  method: get
+  operationId: getActivity
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /athlete
+  method: get
+  operationId: getAthlete
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /auth/authenticateUser
   method: post
   operationId: authenticateUser
@@ -78,6 +101,76 @@ operations:
       - abnormal
       - high-value
     audit: required
+- path: /body
+  method: get
+  operationId: getBody
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /daily
+  method: get
+  operationId: getDaily
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /integrations
+  method: get
+  operationId: listIntegrations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /integrations/detailed
+  method: get
+  operationId: listDetailedIntegrations
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /menstruation
+  method: get
+  operationId: getMenstruation
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /nutrition
+  method: get
+  operationId: getNutrition
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
+- path: /sleep
+  method: get
+  operationId: getSleep
+  x-agentic-access:
+    action-class: connected
+    consequence: read
+    subject: optional
+    token:
+      max-ttl: 3600
+    audit: none
 - path: /userInfo
   method: get
   operationId: getUserInfo
@@ -101,102 +194,6 @@ operations:
 - path: /bulkUserInfo
   method: post
   operationId: bulkUserInfo
-  x-agentic-access:
-    action-class: acting
-    consequence: write
-    subject: required
-    audience: null
-    token:
-      max-ttl: 900
-    escalation:
-      human-in-the-loop: conditional
-      triggers:
-      - abnormal
-      - high-value
-    audit: required
-- path: /activity
-  method: get
-  operationId: getActivity
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /body
-  method: get
-  operationId: getBody
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /daily
-  method: get
-  operationId: getDaily
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /sleep
-  method: get
-  operationId: getSleep
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /nutrition
-  method: get
-  operationId: getNutrition
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /menstruation
-  method: get
-  operationId: getMenstruation
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /athlete
-  method: get
-  operationId: getAthlete
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /integrations
-  method: get
-  operationId: listIntegrations
-  x-agentic-access:
-    action-class: connected
-    consequence: read
-    subject: optional
-    token:
-      max-ttl: 3600
-    audit: none
-- path: /integrations/detailed
-  method: get
-  operationId: listDetailedIntegrations
   x-agentic-access:
     action-class: connected
     consequence: read
