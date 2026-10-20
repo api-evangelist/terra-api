@@ -1,4 +1,91 @@
 edges:
+- partner_name: Aktiia
+  partner: aktiia
+  partner_match: register-name
+  channel: provider-built
+  direction: provider-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations
+  category: health data source
+  contract_reference:
+    list: Terra supported integrations (docs.tryterra.co)
+    spec_file: null
+    listed_name: Aktiia
+    listed_id: AKTIIA
+    listed_names:
+    - Aktiia
+    matched_domain: null
+    matched_by: register-name
+    signal_note: delivery mode / access model / table section are context, never counted
+    detected_by: sweep-health-wellness.py
+    detected: '2026-10-20'
+    delivery_mode:
+    - Periodically fetched
+    developer_access:
+    - N/A
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  detected_by: sweep-health-wellness.py
+  first_seen: '2026-10-20'
+- partner_name: Coros
+  partner: coros
+  partner_match: domain
+  channel: provider-built
+  direction: provider-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations
+  category: health data source
+  contract_reference:
+    list: Terra supported integrations (docs.tryterra.co)
+    spec_file: null
+    listed_name: Coros
+    listed_id: COROS
+    listed_names:
+    - Coros
+    matched_domain: coros.com
+    matched_by: domain
+    signal_note: delivery mode / access model / table section are context, never counted
+    detected_by: sweep-health-wellness.py
+    detected: '2026-10-19'
+    delivery_mode:
+    - Periodically fetched
+    developer_access:
+    - Managed
+  detected_by: sweep-health-wellness.py
+  first_seen: '2026-10-19'
+- partner_name: Cronometer
+  partner: cronometer
+  partner_match: register-name
+  channel: provider-built
+  direction: provider-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations
+  category: health data source
+  contract_reference:
+    list: Terra supported integrations (docs.tryterra.co)
+    spec_file: null
+    listed_name: Cronometer
+    listed_id: CRONOMETER
+    listed_names:
+    - Cronometer
+    matched_domain: null
+    matched_by: register-name
+    signal_note: delivery mode / access model / table section are context, never counted
+    detected_by: sweep-health-wellness.py
+    detected: '2026-10-20'
+    delivery_mode:
+    - Event-Driven
+    developer_access:
+    - Managed
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  detected_by: sweep-health-wellness.py
+  first_seen: '2026-10-20'
 - partner_name: Dexcom
   partner: dexcom
   partner_match: domain
@@ -19,7 +106,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Periodically fetched
     developer_access:
@@ -46,7 +133,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     identity: wikidata Q43080154 'Eight Sleep' P856 http://www.eightsleep.com/
     identity_source: wikidata P856 (labelled provenance step, Kin 2026-10-15 decision 1)
     delivery_mode:
@@ -75,7 +162,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Periodically fetched
     developer_access:
@@ -102,7 +189,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -129,7 +216,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -156,7 +243,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     identity: wikidata Q6944817 'MyFitnessPal' P856 https://www.myfitnesspal.com
     identity_source: wikidata P856 (labelled provenance step, Kin 2026-10-15 decision 1)
     delivery_mode:
@@ -185,7 +272,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -212,7 +299,7 @@ edges:
     matched_by: domain+verified
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -239,7 +326,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -266,7 +353,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     identity: wikidata Q140668002 'TrainingPeaks' P856 https://app.trainingpeaks.com/
     identity_source: wikidata P856 (labelled provenance step, Kin 2026-10-15 decision 1)
     delivery_mode:
@@ -275,6 +362,36 @@ edges:
     - Managed
   detected_by: sweep-health-wellness.py
   first_seen: '2026-10-15'
+- partner_name: Tredict
+  partner: tredict
+  partner_match: register-name
+  channel: provider-built
+  direction: provider-built
+  type: coverage
+  relationship: system-coverage
+  evidence: https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations
+  category: health data source
+  contract_reference:
+    list: Terra supported integrations (docs.tryterra.co)
+    spec_file: null
+    listed_name: Tredict
+    listed_id: TREDICT
+    listed_names:
+    - Tredict
+    matched_domain: null
+    matched_by: register-name
+    signal_note: delivery mode / access model / table section are context, never counted
+    detected_by: sweep-health-wellness.py
+    detected: '2026-10-20'
+    delivery_mode:
+    - Periodically fetched
+    developer_access:
+    - Managed
+    identity_source: register-name
+    identity_note: register gave only the name; exact normalised match to the repo's apis.yml name, one repo, Wikidata
+      P856 not contradicting (Kin 2026-10-20 decision 2)
+  detected_by: sweep-health-wellness.py
+  first_seen: '2026-10-20'
 - partner_name: Wahoo
   partner: wahoo
   partner_match: domain+verified
@@ -295,7 +412,7 @@ edges:
     matched_by: domain+verified
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -322,7 +439,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -349,7 +466,7 @@ edges:
     matched_by: domain
     signal_note: delivery mode / access model / table section are context, never counted
     detected_by: sweep-health-wellness.py
-    detected: '2026-10-15'
+    detected: '2026-10-19'
     delivery_mode:
     - Event-Driven
     developer_access:
@@ -363,7 +480,7 @@ marketplace_apps:
   url: https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations
   app_count: 82
   adapter: sweep-health-wellness.py:terra-api
-  listed: 13
+  listed: 17
   note: only domain-linked sources are written
 generated: '2026-10-15'
 method: searched
