@@ -1,4 +1,4 @@
-# Terra (terra-api)
+# Terra
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,188 +64,137 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps - Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and many more - behind a single normalized REST interface. Developers connect end users through the Terra Widget or a custom authentication flow, then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data. Terra's primary delivery model is asynchronous: requested and newly available health data is streamed to a developer-configured webhook destination rather than returned inline, with REST read endpoints available for on-demand historical pulls. All requests use two headers, `dev-id` (public) and `x-api-key` (secret).
+Terra is a unified wearables and health-data API that aggregates data from 500+ wearables, fitness trackers, and health apps - Garmin, Fitbit, Oura, Apple Health, Whoop, Strava, Google Fit, Polar, Withings, and many more - behind a single normalized REST interface. Developers connect end users through the Terra Widget or a custom authentication flow, then receive normalized Activity, Body, Daily, Sleep, Nutrition, Menstruation, and Athlete data. Terra's primary delivery model is asynchronous - requested and newly available health data is streamed to a developer-configured webhook destination rather than returned inline, with REST read endpoints available for on-demand historical pulls.
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/terra-api/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/terra-api/refs/heads/main/apis.yml)
+**Areas:** Wearables · Health Data · Fitness · Aggregator · Webhook · Digital Health
 
-## Tags
+## Terra on APIs.io
 
-- Wearables
-- Health Data
-- Fitness
-- Aggregator
-- Webhooks
-- Digital Health
+Everything profiled for Terra is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/terra-api/](https://apis.io/providers/terra-api/)** — or go straight to one of the APIs or properties below.
 
-## Timestamps
+### APIs (11)
 
-- **Created:** 2026-07-03
-- **Modified:** 2026-07-03
+- [Terra Webhooks](https://apis.io/apis/terra-api/terra-api-webhooks/) — Terra's primary data-delivery mechanism. Rather than a polling or WebSocket transport, Terra streams normalized health data and lifecycle events - auth,…
+- [Terra Activity API](https://apis.io/apis/terra-api/terra-api-activity-api/) — Workout and exercise sessions.
+- [Terra Athlete API](https://apis.io/apis/terra-api/terra-api-athlete-api/) — Connected-user athlete profile and demographics.
+- [Terra Authentication API](https://apis.io/apis/terra-api/terra-api-authentication-api/) — Connect and disconnect end-user wearable and health accounts.
+- [Terra Body API](https://apis.io/apis/terra-api/terra-api-body-api/) — Body and biometric measurements.
+- [Terra Daily API](https://apis.io/apis/terra-api/terra-api-daily-api/) — Day-level aggregated summaries.
+- [Terra Integrations API](https://apis.io/apis/terra-api/terra-api-integrations-api/) — Catalog of supported wearables, trackers, and health apps.
+- [Terra Menstruation API](https://apis.io/apis/terra-api/terra-api-menstruation-api/) — Menstrual cycle and reproductive health data.
+- [Terra Nutrition API](https://apis.io/apis/terra-api/terra-api-nutrition-api/) — Logged nutrition and dietary intake.
+- [Terra Sleep API](https://apis.io/apis/terra-api/terra-api-sleep-api/) — Sleep sessions and stages.
+- [Terra Users API](https://apis.io/apis/terra-api/terra-api-users-api/) — Look up and manage connected users and subscriptions.
 
-## APIs
+### Published properties
 
-### Terra Authentication API
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-Connect end users to their wearable and health accounts. Generate a Terra Widget session or a custom authentication link, mint auth tokens for the Terra mobile SDKs, and deauthenticate users to revoke data access.
+#### Agentic access (1)
 
-- **Human URL:** [https://docs.tryterra.co/health-and-fitness-api/user-authentication](https://docs.tryterra.co/health-and-fitness-api/user-authentication)
-- **Base URL:** `https://api.tryterra.co/v2`
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Tags
+- [Terra Api Agentic Access](https://apis.io/agentic-access/terra-api/terra-api-agentic-access/)
 
-- Authentication
-- Widget
-- User Onboarding
+#### Collections (11)
 
-#### Properties
+Postman and Open Collection request collections.
 
-- [Documentation](https://docs.tryterra.co/health-and-fitness-api/user-authentication)
-- [API Reference](https://docs.tryterra.co/reference/health-and-fitness-api/readme)
-- [OpenAPI](openapi/terra-api-openapi.yml) — [OpenAPI Specification](https://spec.openapis.org/oas/latest.html)
-- [Postman Collection](collections/terra-api.postman_collection.json) — [Postman Collection 2.1](https://schema.getpostman.com/json/collection/v2.1.0/collection.json)
-- [Open Collection](collections/terra-api.opencollection.json) — [Open Collection 1.0](https://schema.opencollection.com/opencollection/v1.0.0.json)
+- [Terra API](https://apis.io/collections/terra-api/open-terra-api/)
+- [Terra Activity API](https://apis.io/collections/terra-api/open-terra-api-activity-api/)
+- [Terra Activity Athlete API](https://apis.io/collections/terra-api/open-terra-api-athlete-api/)
+- [Terra Activity Authentication API](https://apis.io/collections/terra-api/open-terra-api-authentication-api/)
+- [Terra Activity Body API](https://apis.io/collections/terra-api/open-terra-api-body-api/)
+- [Terra Activity Daily API](https://apis.io/collections/terra-api/open-terra-api-daily-api/)
+- [Terra Activity Integrations API](https://apis.io/collections/terra-api/open-terra-api-integrations-api/)
+- [Terra Activity Menstruation API](https://apis.io/collections/terra-api/open-terra-api-menstruation-api/)
+- [Terra Activity Nutrition API](https://apis.io/collections/terra-api/open-terra-api-nutrition-api/)
+- [Terra Activity Sleep API](https://apis.io/collections/terra-api/open-terra-api-sleep-api/)
+- [Terra Activity Users API](https://apis.io/collections/terra-api/open-terra-api-users-api/)
 
-### Terra User Management API
+#### Security (2)
 
-Look up connected users and their metadata. Retrieve a single user by Terra user ID or your reference ID, list all connected user IDs (subscriptions) with pagination, and batch-query multiple users at once via bulk user info.
+Authentication, trust centre, and vulnerability disclosure.
 
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/readme](https://docs.tryterra.co/reference/health-and-fitness-api/readme)
-- **Base URL:** `https://api.tryterra.co/v2`
+- [Terra Api Authentication](https://apis.io/security/terra-api/terra-api-authentication/)
+- [Terra Api Domain Security](https://apis.io/security/terra-api/terra-api-domain-security/)
 
-#### Tags
+#### Plans and pricing (1)
 
-- Users
-- Subscriptions
-- Management
+Published plans, tiers and prices.
 
-### Terra Activity API
+- [Terra Api Plans Pricing](https://apis.io/plans/terra-api/terra-api-plans-pricing/)
 
-Retrieve normalized workout and exercise sessions for a user over a date range - GPS routes, heart-rate zones, distance, calories, power, cadence, and per-activity samples. Streamed to your webhook when `to_webhook` is true.
+#### Rate limits (1)
 
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
+Published request limits.
 
-#### Tags
+- [Terra Api Rate Limits](https://apis.io/rate-limits/terra-api/terra-api-rate-limits/)
 
-- Activity
-- Workouts
-- Exercise
+#### FinOps (1)
 
-### Terra Body API
+What the API costs to run, by operation.
 
-Retrieve body and biometric measurements for a user - weight, body composition, blood pressure, blood glucose, SpO2, hydration, temperature, and continuous heart-rate samples - normalized across every supported device.
+- [Terra Api Finops](https://apis.io/finops/terra-api/terra-api-finops/)
 
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
+## Where to find this API
 
-#### Tags
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- Body
-- Biometrics
-- Heart Rate
-
-### Terra Daily API
-
-Retrieve day-level aggregated summaries for a user - steps, distance, active and total calories, active durations, heart-rate summaries, and stress - rolled up per calendar day across supported wearables.
-
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Daily
-- Steps
-- Summaries
-
-### Terra Sleep API
-
-Retrieve sleep sessions for a user - total, light, deep, and REM durations, sleep stages, respiration, heart-rate variability, and readiness or recovery metrics - normalized across Oura, Whoop, Garmin, Fitbit, and others.
-
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Sleep
-- Sleep Stages
-- Recovery
-
-### Terra Nutrition API
-
-Retrieve logged nutrition and dietary intake for a user - meals, macronutrients, micronutrients, water intake, and per-meal detail - from apps such as MyFitnessPal and other supported nutrition sources.
-
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Nutrition
-- Diet
-- Macros
-
-### Terra Menstruation API
-
-Retrieve menstrual cycle and reproductive health data for a user - cycle phases, period days, predicted and actual menstruation events, and related symptoms - from cycle-tracking apps and wearables.
-
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Menstruation
-- Cycle Tracking
-- Womens Health
-
-### Terra Athlete API
-
-Retrieve the athlete profile for a connected user - name, age, sex, height, weight, country, and other demographic attributes reported by the upstream provider - to enrich and contextualize their health data.
-
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/data-models](https://docs.tryterra.co/reference/health-and-fitness-api/data-models)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Athlete
-- Profile
-- Demographics
-
-### Terra Integrations API
-
-Discover which of Terra's 500+ wearables, trackers, and health apps are available to your account. List supported integrations, and query a detailed view filtered by the data scopes and SDKs each provider supports.
-
-- **Human URL:** [https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations](https://docs.tryterra.co/reference/health-and-fitness-api/supported-integrations)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Integrations
-- Providers
-- Catalog
-
-### Terra Webhooks
-
-Terra's primary data-delivery mechanism. Rather than a polling or WebSocket transport, Terra streams normalized health data and lifecycle events - auth, deauth, connection errors, and activity/body/daily/sleep/nutrition/menstruation payloads - by HTTP POST to a developer-configured webhook endpoint, signed for verification. Historical data requests with `to_webhook=true` are fulfilled asynchronously to this same destination.
-
-- **Human URL:** [https://docs.tryterra.co/health-and-fitness-api/integration-setup/setting-up-data-destinations/webhooks](https://docs.tryterra.co/health-and-fitness-api/integration-setup/setting-up-data-destinations/webhooks)
-- **Base URL:** `https://api.tryterra.co/v2`
-
-#### Tags
-
-- Webhooks
-- Data Streaming
-- Events
-
-## Common Properties
-
-- [GitHub Organization](https://github.com/tryterra)
-- [LinkedIn](https://www.linkedin.com/company/terraapi)
 - [Website](https://tryterra.co)
 - [Documentation](https://docs.tryterra.co)
-- [Plans](plans/terra-api-plans-pricing.yml)
-- [Rate Limits](rate-limits/terra-api-rate-limits.yml)
-- [Fin Ops](finops/terra-api-finops.yml)
+- [Blog](https://www.tryterra.co/blog)
+- [GitHub](https://github.com/tryterra)
 
-## Maintainers
+## API Evangelist rating
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Kin Score 27.2** — thin · rubric 0.24.0 · scored 2026-10-17
+
+| Facet | Score |
+|---|---|
+| Discoverability | 66.1 |
+| Contract quality | 50.3 |
+| Contract governance | 0.0 |
+| Operational transparency | 10.5 |
+| Developer ergonomics | 31.0 |
+| Access clarity | 7.9 |
+
+**Agent readiness 20.4** — agent-aware
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | bearer (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+
+**Regulatory alignment 9.4** — Health
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/terra-api/](https://apis.io/providers/terra-api/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Terra: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/terra-api/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
